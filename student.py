@@ -1,22 +1,10 @@
-# grade_calculator.py
 # Program to calculate student grade
 
-import sys
+def calculate_average(m1, m2, m3):
+    return (m1 + m2 + m3) / 3
 
-def show_grade_criteria():
-    print("\n--- Grade Criteria ---")
-    print("90 - 100 : Grade S")
-    print("80 - 89  : Grade A")
-    print("65 - 79  : Grade B")
-    print("50 - 64  : Grade C")
-    print("40 - 49  : Grade D")
-    print("Below 40 : Grade F")
-    print("----------------------\n")
 
-def calculate_average(marks):
-    return sum(marks) / len(marks)
-
-def calculate_grade(avg):
+def assign_grade(avg):
     if avg >= 90:
         return "S"
     elif avg >= 80:
@@ -32,47 +20,39 @@ def calculate_grade(avg):
 
 
 if __name__ == "__main__":
+    import sys
     print("=== Student Grade Calculator ===")
-    show_grade_criteria()
 
     try:
-        # Case 1: CLI / Jenkins arguments
-        # python grade_calculator.py Name Dept Sem m1 m2 m3
+        # If user gives input through command line
         if len(sys.argv) == 7:
             name = sys.argv[1]
             department = sys.argv[2]
-            semester = sys.argv[3]
-            marks = [
-                float(sys.argv[4]),
-                float(sys.argv[5]),
-                float(sys.argv[6])
-            ]
+            semester = int(sys.argv[3])
+            m1 = float(sys.argv[4])
+            m2 = float(sys.argv[5])
+            m3 = float(sys.argv[6])
 
-        # Case 2: Interactive console input
         else:
+            # Take user input
             name = input("Enter Student Name: ")
             department = input("Enter Department: ")
-            semester = input("Enter Semester: ")
+            semester = int(input("Enter Semester: "))
+            m1 = float(input("Enter marks in Subject 1: "))
+            m2 = float(input("Enter marks in Subject 2: "))
+            m3 = float(input("Enter marks in Subject 3: "))
 
-            marks = []
-            for i in range(3):
-                mark = float(input(f"Enter marks for Subject {i+1}: "))
-                marks.append(mark)
+        print("\n=== Program Parameters ===")
+        print(f"Student Name : {name}")
+        print(f"Department   : {department}")
+        print(f"Semester     : {semester}")
+        print(f"Marks        : {m1}, {m2}, {m3}")
 
-        avg = calculate_average(marks)
-        grade = calculate_grade(avg)
+        average = calculate_average(m1, m2, m3)
+        grade = assign_grade(average)
 
-        print("\n=== Student Details ===")
-        print("Name       :", name)
-        print("Department :", department)
-        print("Semester   :", semester)
-
-        print("\n=== Subject Marks ===")
-        for i, mark in enumerate(marks, start=1):
-            print(f"Subject {i}: {mark}")
-
-        print("\nAverage Marks :", f"{avg:.2f}")
-        print("Final Grade   :", grade)
+        print(f"\nAverage = {average:.2f}")
+        print(f"Grade   = {grade}")
 
     except ValueError:
-        print("Invalid input! Please enter numeric values for marks.")
+        print("Invalid input. Please enter valid numeric values.")
